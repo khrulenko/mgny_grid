@@ -1,0 +1,11 @@
+.cell {
+  box-sizing: border-box;
+
+  width: 60px;
+  min-width: 60px;
+  height: 20px;
+  min-height: 20px;
+  border: 1px solid black;
+
+  font-size: 8px;
+}
