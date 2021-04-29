@@ -6,27 +6,30 @@ import './App.css';
 export function App() {
   const [rows, setRows] = useState([]);
 
-  const cellWidth = 60;
-  const cellHeight = 20;
+  const cellWidth = 75;
+  const cellHeight = 25;
+  const cellsOutside = 5;
 
-  const [cellsAmount, setCellsAmount] = useState(Math.ceil(window.innerWidth / cellWidth));
-  const [rowsAmount, setRowsAmount] = useState(Math.ceil(window.innerHeight / cellHeight));
+  const [cellsAmount, setCellsAmount] = useState(Math.ceil(window.innerWidth / cellWidth) + cellsOutside);
+  const [rowsAmount, setRowsAmount] = useState(Math.ceil(window.innerHeight / cellHeight) + cellsOutside);
 
   useEffect(() => {
     addRows(rowsAmount);
   }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', addMore);
+    window.addEventListener('resize', onResizeAdder);
+    window.addEventListener('scroll', onScrollAdder);
 
     return () => {
-      window.removeEventListener('resize', addMore);
+      window.removeEventListener('resize', onResizeAdder);
+      window.removeEventListener('scroll', onScrollAdder);
     };
   });
 
-  function addMore(event) {
-    const newWidth = event.currentTarget.innerWidth;
-    const newHeight = event.currentTarget.innerHeight;
+  function onResizeAdder() {
+    const newWidth = document.documentElement.scrollWidth;
+    const newHeight = document.documentElement.scrollHeight;
 
     if (Math.ceil(newHeight / cellHeight) > rowsAmount
     && Math.ceil(newHeight / cellHeight) < 40000
@@ -41,6 +44,24 @@ export function App() {
       setCellsAmount(Math.ceil(newWidth / cellWidth));
       addCells(Math.ceil(newWidth / cellWidth) - cellsAmount);
     }
+  };
+
+  function onScrollAdder() {
+    const docX = document.documentElement.scrollWidth;
+    const docY = document.documentElement.scrollHeight;
+
+    const scrollX = window.pageXOffset;
+    const scrollY = window.pageYOffset;
+
+    if (scrollY * 100 / (docY - window.innerHeight) > 90) {
+      setRowsAmount(Math.ceil(docY / cellHeight));
+      addRows(cellsOutside);
+    };
+
+    if (scrollX * 100 / (docX - window.innerWidth) > 90) {
+      setCellsAmount(Math.ceil(docX / cellWidth));
+      addCells(cellsOutside);
+    };
   };
 
   function addRows(amount) {
@@ -79,6 +100,7 @@ export function App() {
       {rows && rows.map((row, i) => (
         <Row
           key={i}
+          rowIndex={i}
           row={row}
         />
       ))}
