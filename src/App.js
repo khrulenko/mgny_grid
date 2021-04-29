@@ -28,18 +28,18 @@ export function App() {
     const newWidth = event.currentTarget.innerWidth;
     const newHeight = event.currentTarget.innerHeight;
 
+    if (Math.ceil(newHeight / cellHeight) > rowsAmount
+    && Math.ceil(newHeight / cellHeight) < 40000
+    ) {
+      setRowsAmount(Math.ceil(newHeight / cellHeight));
+      addRows(Math.ceil(newHeight / cellHeight) - rowsAmount);
+    }
+
     if (Math.ceil(newWidth / cellWidth) > cellsAmount
       && Math.ceil(newWidth / cellWidth) < 40000
     ) {
       setCellsAmount(Math.ceil(newWidth / cellWidth));
       addCells(Math.ceil(newWidth / cellWidth) - cellsAmount);
-    }
-
-    if (Math.ceil(newHeight / cellHeight) > rowsAmount
-      && Math.ceil(newHeight / cellHeight) < 40000
-    ) {
-      setRowsAmount(Math.ceil(newHeight / cellHeight));
-      addRows(Math.ceil(newHeight / cellHeight) - rowsAmount);
     }
   };
 
@@ -56,13 +56,14 @@ export function App() {
       newRows.push(newRow);
     }
 
-    setRows([...rows, ...newRows]);
+    setRows(prevRows => [...prevRows, ...newRows]);
   };
 
   function addCells(amount) {
-    setRows(rows.map(
+    setRows(prevRows => prevRows.map(
       row => {
         const newRow = [...row];
+
         for (let s = 0; s < amount; s++) {
           newRow.push({id: `${+new Date()}${Math.random()}`, content: ''})
         }
