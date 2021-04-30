@@ -67,7 +67,7 @@ export function App() {
   function addRows(amount) {
     const newRows = [];
 
-    for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < amount + cellsOutside; i++) {
       const newRow = [];
 
       for (let s = 0; s < cellsAmount; s++) {
@@ -85,7 +85,7 @@ export function App() {
       row => {
         const newRow = [...row];
 
-        for (let s = 0; s < amount; s++) {
+        for (let s = 0; s < amount + cellsOutside; s++) {
           newRow.push({id: `${+new Date()}${Math.random()}`, content: ''})
         }
 

@@ -7,7 +7,7 @@ export function Row ({ row, rowIndex }) {
 
   return (
 
-    <div className={'row'}>
+    <div className={rowIndex === 0 ? 'topRulerRow' :'row'}>
       {row.map((cell, cellIndex) => (
         <Cell
           rowIndex={rowIndex}
