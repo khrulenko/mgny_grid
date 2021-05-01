@@ -27,7 +27,7 @@
 }
 
 .leftRulerCell {
-  z-index: 2;
+  z-index: 4;
   position: sticky;
   left: 0;
 }
@@ -38,6 +38,8 @@
 
 .fakeCheckbox {
   position: absolute;
+  z-index: 2;
+
   left: 0;
   height: 23px;
   width: 23px;
@@ -47,6 +49,8 @@
   font-size: 23px;
 
   border-right: 1px solid rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
 }
 
 .textInput {
@@ -65,4 +69,38 @@
 
 .textInput:disabled {
   cursor: not-allowed;
+  background-color: rgb(255, 234, 234);
+}
+
+.saveButton {
+  position: relative;
+  z-index: 3;
+  right: -115%;
+  width: 60px;
+  height: 23px;
+
+  padding-left: 15px;
+
+  font-weight: bold;
+
+  border: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: rgb(181, 127, 224);
+
+  cursor: pointer;
+}
+
+.saveButton::before {
+  content: '';
+  position: absolute;
+
+  width: 16px;
+  height: 16px;
+
+  background-color: rgb(181, 127, 224);
+
+  transform-origin: center;
+  top: 50%;
+  transform: translate(-160%, -50%) rotate(45deg);
 }

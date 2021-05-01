@@ -94,11 +94,25 @@ export function App() {
     );
   };
 
+  function setCellContent(newContent, cellId) {
+    setRows(prevRows => prevRows.map(row => row.map(
+        cell => {
+          if (cell.id === cellId) {
+            return {...cell, content: newContent};
+          }
+
+          return cell;
+        }
+      )
+    ));
+  }
+
   return (
     <div className="App">
 
       {rows && rows.map((row, i) => (
         <Row
+          setCellContent={setCellContent}
           key={i}
           rowIndex={i}
           row={row}
@@ -107,4 +121,4 @@ export function App() {
 
     </div>
   );
-}
+};
