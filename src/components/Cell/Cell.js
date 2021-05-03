@@ -1,12 +1,14 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useContext } from 'react';
+import { Context } from '../../context';
+
 import './Cell.css';
 
 export function Cell ({
   cell,
   rowIndex,
   cellIndex,
-  setCellContent
 }) {
+  const { setCellContent } = useContext(Context);
 
   const [isChecked, setIsChecked] = useState(false);
   const [content, setContent] = useState(cell.content);
@@ -28,12 +30,12 @@ export function Cell ({
     <div
       className={
         cellIndex === 0 && rowIndex !== 0
-        ? 'leftRulerCell'
-        : rowIndex === 0 && cellIndex !== 0
-        ? 'topRulerCell'
-        : rowIndex === 0 && cellIndex === 0
-        ? 'crossCell'
-        : 'cell'
+          ? 'leftRulerCell'
+          : rowIndex === 0 && cellIndex !== 0
+          ? 'topRulerCell'
+          : rowIndex === 0 && cellIndex === 0
+          ? 'crossCell'
+          : 'cell'
       }
     >
       {cellIndex === 0 ? (rowIndex !== 0 ? rowIndex : '') : ''}

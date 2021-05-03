@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Context } from './context';
+
 import { Row } from './components/Row/Row';
 
 import './App.css';
@@ -10,8 +12,12 @@ export function App() {
   const cellHeight = 25;
   const cellsOutside = 5;
 
-  const [cellsAmount, setCellsAmount] = useState(Math.ceil(window.innerWidth / cellWidth) + cellsOutside);
-  const [rowsAmount, setRowsAmount] = useState(Math.ceil(window.innerHeight / cellHeight) + cellsOutside);
+  const [cellsAmount, setCellsAmount] = useState(
+    Math.ceil(window.innerWidth / cellWidth) + cellsOutside
+  );
+  const [rowsAmount, setRowsAmount] = useState(
+    Math.ceil(window.innerHeight / cellHeight) + cellsOutside
+  );
 
   useEffect(() => {
     addRows(rowsAmount);
@@ -32,7 +38,7 @@ export function App() {
     const newHeight = document.documentElement.scrollHeight;
 
     if (Math.ceil(newHeight / cellHeight) > rowsAmount
-    && Math.ceil(newHeight / cellHeight) < 40000
+      && Math.ceil(newHeight / cellHeight) < 40000
     ) {
       setRowsAmount(Math.ceil(newHeight / cellHeight));
       addRows(Math.ceil(newHeight / cellHeight) - rowsAmount);
@@ -55,12 +61,16 @@ export function App() {
 
     if (scrollY * 100 / (docY - window.innerHeight) > 90) {
       setRowsAmount(Math.ceil(docY / cellHeight));
-      addRows(cellsOutside);
+      if (rows.length <= 40000 - cellsOutside) {
+        addRows(cellsOutside);
+      };
     };
 
     if (scrollX * 100 / (docX - window.innerWidth) > 90) {
       setCellsAmount(Math.ceil(docX / cellWidth));
-      addCells(cellsOutside);
+      if (rows[0].length <= 40000 - cellsOutside) {
+        addCells(cellsOutside);
+      };
     };
   };
 
@@ -105,20 +115,27 @@ export function App() {
         }
       )
     ));
-  }
+  };
 
   return (
-    <div className="App">
+    <Context.Provider
+      value={{
+        setCellContent
+      }}
+    >
 
-      {rows && rows.map((row, i) => (
-        <Row
-          setCellContent={setCellContent}
-          key={i}
-          rowIndex={i}
-          row={row}
-        />
-      ))}
+      <div className="App">
 
-    </div>
+        {rows && rows.map((row, i) => (
+          <Row
+            key={i}
+            rowIndex={i}
+            row={row}
+          />
+        ))}
+
+      </div>
+
+    </Context.Provider>
   );
 };
