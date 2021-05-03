@@ -89,7 +89,7 @@ export function Cell ({
           >
           </input>
 
-          {isSaveVisible &&
+          {isSaveVisible && cell.content !== content &&
             <button
               className={'saveButton'}
               onMouseDown={() => {
