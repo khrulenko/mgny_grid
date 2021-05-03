@@ -96,7 +96,7 @@ export function Cell ({
                 setCellContent(content, cell.id);
                 setIsSaveVisible(false);
                 console.log(
-                  `Changed cell with coords X: ${cellIndex}, Y: ${rowIndex}. ${content ? `New content is: ${content}` : 'Contentent is clear.'}`
+                  `Changed a cell with coords (X: ${cellIndex}, Y: ${rowIndex}). ${content ? `New content is: ${content}` : 'The content is cleared.'}`
                 );
               }}
             >
